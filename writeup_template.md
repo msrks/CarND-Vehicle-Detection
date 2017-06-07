@@ -15,22 +15,38 @@ The goals / steps of this project are the following:
 
 The code for this step is contained in `1_exploration.ipynb` .  
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+1. Data Exploration
+
+I started by reading in all the `vehicle` and `non-vehicle` images.  
+
+dataset statistics:
+
+```
+- n_car 8792
+- n_notcars 8968
+- image_shape (64, 64, 3)
+- data_type float32
+```
+
+example image:
 
 <img src="./for_writeup/example-images.png" width="600">
 
+2. Data Exploration
+
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+Here is an example using the `HSV` color space and HOG parameters of `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
+<img src="./for_writeup/hog-features.png" width="1000">
 
-![alt text][image2]
+---
 
-####2. Explain how you settled on your final choice of HOG parameters.
+#### 2. Explain how you settled on your final choice of HOG parameters.
 
 I tried various combinations of parameters and...
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
 I trained a linear SVM using...
 
