@@ -30,7 +30,7 @@ dataset statistics:
 
 example image:
 
-<img src="./for_writeup/example-images.png" width="600">
+<img src="./for_writeup/example-images.png" width="400">
 
 2. HOG Feature Extraction
 
@@ -65,9 +65,11 @@ I trained a linear SVM(C=1.0).
 
 I used both of the HOG features & color features.
 
-- HOG features (I have described)
-- Color bin features (cspace='RGB', resize to (32,32,3))
-- Color histogram (cspace='RGB', spatial_size=(32,32), hist_bins=32)
+```
+HOG features (I have described)
+Color bin features (cspace='RGB', resize to (32,32,3))
+Color histogram (cspace='RGB', spatial_size=(32,32), hist_bins=32)
+```
 
 the train-dataset shape is `(17760, 8460)`
 
@@ -88,7 +90,7 @@ the process is the following ..
 I tried many many times to get good detection heatmap.
 the final parameters are the following
 
-"""
+```
 windows1 = slide_window(image, x_start_stop=[700, None], y_start_stop=[390, 500],
                     xy_window=(90, 90), xy_overlap=(0.8, 0.8))
 windows2 = slide_window(image, x_start_stop=[600, None], y_start_stop=[390, 540],
@@ -98,7 +100,7 @@ windows3 = slide_window(image, x_start_stop=[600, None], y_start_stop=[390, 560]
 windows4 = slide_window(image, x_start_stop=[600, None], y_start_stop=[390, 600],
                     xy_window=(150, 150), xy_overlap=(0.85, 0.85))
 windows = windows1 + windows2 + windows3 + windows4
-"""
+```
 
 <img src="./for_writeup/sliding_window.png" width="1000">
 
