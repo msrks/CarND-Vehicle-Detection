@@ -40,34 +40,65 @@ Here is an example using the `HSV` color space and HOG parameters of `orientatio
 
 <img src="./for_writeup/hog-features.png" width="1000">
 
----
+#### 2. how I settled on my final choice of HOG parameters.
 
-#### 2. Explain how you settled on your final choice of HOG parameters.
+the process is the following ..
 
-I tried various combinations of parameters and...
+1. choose some combinations of parameters
+2. extract HOG features
+3. train classifier using this features
+4. checking prediction accuracy of test-dataset
 
-#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+I have choosed the following parameters which produce the best accuracy.
 
-I trained a linear SVM using...
+```
+colorspace = 'HSV'
+channels = 3 (ALL of HSV)
+orient = 9
+pix_per_cell = 8
+cell_per_block = 2
+```
 
-###Sliding Window Search
+#### 3. how I trained a classifier.
 
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+I trained a linear SVM(C=1.0).
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+I used both of the HOG features & color features.
+
+- HOG features (I have described)
+- Color bin features (cspace='RGB', resize to (32,32,3))
+- Color histogram (cspace='RGB', spatial_size=(32,32), hist_bins=32)
+
+the train-dataset shape is `(17760, 8460)`
+
+I got the clasiffier which predict test-dataset with accuracy ~ 0.98-0.99
+
+### Sliding Window Search
+
+#### 1. how I implemented a sliding window search. (scales to search, how much to overlap windows)
+
+the process is the following ..
+
+1. sliding window with multiple scape and overlap
+2. apply classifier to each extracted image
+3. save window position if `prediction == "Car"`
+4. create heat map of window
+5. drop window if `the value of each position of the heat map` is lower than `threshold`
+6. combine window position
 
 ![alt text][image3]
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+#### 2. examples of test images to demonstrate how my pipeline is working.
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+I dropped window if `the value of each position of the heat map` is lower than `threshold`  to improve prediction performance
 
 ![alt text][image4]
+
 ---
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a [link to my video result](./project_video.mp4)
 
 
@@ -91,8 +122,13 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues in my implementation, where my pipeline likely fail, what I can do to make it more robust.
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+* issue: pipeline is slow
+
+* difficult case: if it's night, my pipeline may fail to detect vehicles
+
+* other technique to make it more robust: use Convolutional Neural Network
+for Object Detection (Faster RCNN, SSD, YOLO, ..)
